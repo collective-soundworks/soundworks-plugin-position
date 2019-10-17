@@ -12,8 +12,6 @@ const serviceFactory = function(Service) {
     }
 
     async start() {
-      super.start();
-
       this.state = await this.client.stateManager.create(`s:${this.name}`);
       // wait for some position to be given before ready
       this.state.subscribe(updates => {
