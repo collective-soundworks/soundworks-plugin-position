@@ -1,2 +1,2 @@
-import serviceFactory from './service-position.js';
-export default serviceFactory;
+import pluginFactory from './plugin-position.js';
+export default pluginFactory;

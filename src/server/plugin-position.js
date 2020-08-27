@@ -1,4 +1,4 @@
-function createSchema(xRange, yRange) {
+function createBoundedSchema(xRange, yRange) {
   const schema = {
     x: {
       type: 'float',
@@ -27,28 +27,40 @@ function createSchema(xRange, yRange) {
       max: 1,
       nullable: true,
       default: null,
-    }
-  }
+    },
+    label: {
+      type: 'string',
+      nullable: true,
+      default: null,
+    },
+  };
 
   return schema;
 }
 
-const serviceFactory = function(Service) {
+const pluginFactory = function(AbstractPlugin) {
 
-  return class ServicePosition extends Service {
+  return class PluginPosition extends AbstractPlugin {
     constructor(server, name, options) {
       super(server, name);
 
       const defaults = {
         xRange: [0, 1],
         yRange: [0, 1],
-      }
+        // @unstable - strong dependency between the plugin and the default view
+        // if removed in the future add a check to log a warning to the user to
+        // simplify updates.
+        // if (options.backgroundImage) {
+        //   console.warn('the option.backgroundImage has been removed, please see...'');
+        // }
+        backgroundImage: '',
+      };
 
       this.options = this.configure(defaults, options);
       this.states = new Map();
 
-      const { xRange, yRange } = this.options;
-      const schema = createSchema(xRange, yRange);
+      const { xRange, yRange } = this.options;
+      const schema = createBoundedSchema(xRange, yRange);
 
       this.server.stateManager.registerSchema(`s:${this.name}`, schema);
     }
@@ -59,10 +71,7 @@ const serviceFactory = function(Service) {
           const state = await this.server.stateManager.attach(schemaName, stateId);
 
           this.states.set(clientId, state);
-
-          state.onDetach(() => {
-            this.states.delete(clientId);
-          });
+          state.onDetach(() => this.states.delete(clientId));
         }
       });
 
@@ -73,10 +82,10 @@ const serviceFactory = function(Service) {
     connect(client) {
       super.connect(client);
 
-      const { xRange, yRange } = this.options;
+      const { xRange, yRange, backgroundImage } = this.options;
 
       const init = () => {
-        client.socket.send(`s:${this.name}:config`, xRange, yRange);
+        client.socket.send(`s:${this.name}:config`, xRange, yRange, backgroundImage);
         client.socket.removeListener(`s:${this.name}:init`, init);
       }
 
@@ -89,7 +98,4 @@ const serviceFactory = function(Service) {
   }
 }
 
-// not mandatory
-serviceFactory.defaultName = 'service-position';
-
-export default serviceFactory;
+export default pluginFactory;
