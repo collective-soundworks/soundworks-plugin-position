@@ -53,7 +53,8 @@ const pluginFactory = function(AbstractPlugin) {
     getPosition() {
       const x = this.state.get('x');
       const y = this.state.get('y');
-      return { x, y };
+      const label = this.state.get('label');
+      return { x, y, label };
     }
 
     setNormalizedPosition(normX, normY, label = null) {
@@ -76,7 +77,8 @@ const pluginFactory = function(AbstractPlugin) {
     getNormalizedPosition() {
       const normX = this.state.get('normX');
       const normY = this.state.get('normY');
-      return { normX, normY };
+      const label = this.state.get('label');
+      return { normX, normY, label };
     }
   }
 

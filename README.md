@@ -114,7 +114,7 @@ class MyExperience extends Experience {
     super(client);
     // require plugin in the experience
     this.position = this.require('position');
-    this.position.setPosition(x, y);
+    this.position.setPosition(x, y[, label]);
   }
 }
 ```
