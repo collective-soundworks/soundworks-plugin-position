@@ -106,7 +106,7 @@ The following API is available client-side only.
 const { x, y } = this.position.getPosition();
 ```
 
-In some situation, you might want to set the position programmatically, for example to assign a position to people and asking them to go to the given place. Using this possibility as shown below will therefore bypass the default screen, the visual feedback or information will therefore be the responsibility of the developer.
+In some situation, you might want to set the position programmatically, for example to assign a position to people and asking them to go to the given place. Using this possibility as shown below will therefore bypass the default screen, the visual feedback (or any other informative process) will therefore be the responsibility of the developer / designer / artist (note that similar result may be achieved using [`@soundworks/plugin-checkin`](https://github.com/collective-soundworks/soundworks-plugin-checkin))
 
 ```js
 class MyExperience extends Experience {
