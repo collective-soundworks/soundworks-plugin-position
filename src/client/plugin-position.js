@@ -1,84 +1,103 @@
-const pluginFactory = function(AbstractPlugin) {
-  return class PluginPosition extends AbstractPlugin {
-    constructor(client, name, options) {
-      super(client, name);
+const pluginFactory = function(Plugin) {
+  return class PluginPosition extends Plugin {
+    constructor(client, id, options = {}) {
+      super(client, id);
 
-      const defaults = {};
+      const defaults = {
+        randomize: false,
+      };
 
-      this.options = this.configure(defaults, options);
-      // store values if setPosition is called before the service is started
-      this._tmpState = null;
-    }
+      this.options = Object.assign({}, defaults, options);
 
-    async start() {
-      this.state = await this.client.stateManager.create(`s:${this.name}`);
-      // wait for some position to be given before ready
-      this.state.subscribe(updates => {
-        if (this.signals.ready.value === false) {
-          this.ready();
-        }
-      });
-
-      this.client.socket.addListener(`s:${this.name}:config`, (xRange, yRange, backgroundImage) => {
-        this.options = { xRange, yRange, backgroundImage };
-
-        this.started();
-
-        // if set position have been called before start
-        if (this._tmpState && 'x' in this._tmpState && 'y' in this._tmpState) {
-          const { x, y, label } = this._tmpState;
-          this.setPosition(x, y, label);
-        } else if (this._tmpState && 'normX' in this._tmpState && 'normY' in this._tmpState) {
-          const { normX, normY, label } = this._tmpState;
-          this.setNormalizedPosition(x, y, label);
-        }
-      });
-
-      this.client.socket.send(`s:${this.name}:init`);
-    }
-
-    setPosition(x, y, label = null) {
-      if (!this.state) {
-        this._tmpState = { x, y, label };
-        return;
+      this.state = {
+        infos: null,
+        x: null,
+        y: null,
+        normX: null,
+        normY: null,
       }
 
-      const { xRange, yRange } = this.options;
+      this._startPromiseResolve = null;
+      this._startPromiseReject = null;
+    }
+
+    /**
+     * Start will resolve once `setPosition` or `setNormalizedPosition` is called.
+     * If you do not rely on the `@soundworks/helpers` default views, you should
+     * track the plugin start process and call one of these methods using
+     * `client.stateManager.onStateChange` method. The callback should be written
+     * very carefully to avoid running into infinite loop, first check for inited status,
+     * then check for `state.infos`, then call setPosition on if `state.x` && `state.y`
+     * are null
+     *
+     * @example
+     * client.pluginManager.onStateChange((plugins) => {
+     *   const position = plugins['position'];
+     *
+     *   if (position.status === 'inited') {
+     *     if (position.state && position.state.infos) {
+     *       assert.deepEqual(position.state.infos, options);
+     *
+     *       if (position.state.x === null && position.state.y === null) {
+     *         position.setNormalizedPosition(0.5, 0.5);
+     *       }
+     *     }
+     *   }
+     * });
+     */
+    async start() {
+      await super.start();
+
+      const startPromise = new Promise((resolve, reject) => {
+        this._startPromiseResolve = resolve;
+        this._startPromiseReject = reject;
+      });
+
+      const serverInfos = await this.client.stateManager.attach(`sw:plugin:${this.id}`);
+      const infos = serverInfos.getValues();
+      this.propagateStateChange({ infos });
+
+      await serverInfos.detach();
+
+      if (this.options.randomize) {
+        const normX = Math.random();
+        const normY = Math.random();
+        this.setNormalizedPosition(normX, normY);
+      }
+
+      return startPromise;
+    }
+
+    setPosition(x, y) {
+      const { xRange, yRange } = this.state.infos;
       const normX = (x - xRange[0]) / (xRange[1] - xRange[0]);
       const normY = (y - yRange[0]) / (yRange[1] - yRange[0]);
 
-      this.state.set({ x, y, normX, normY, label });
+      this._startPromiseResolve();
+      // @note - this is a bit dangerous as this can lead to infinite loop if
+      // the `stateManager.onStateChange` method is not written carefully
+      this.propagateStateChange({ x, y, normX, normY });
     }
 
     getPosition() {
-      const x = this.state.get('x');
-      const y = this.state.get('y');
-      const label = this.state.get('label');
-      return { x, y, label };
+      const { x, y } = this.state;
+      return { x, y };
     }
 
-    setNormalizedPosition(normX, normY, label = null) {
-      if (!this.state) {
-        this._tmpState = { normX, normY, label };
-        return;
-      }
-
-      const { xRange, yRange } = this.options;
+    setNormalizedPosition(normX, normY) {
+      const { xRange, yRange } = this.state.infos;
       const x = normX * (xRange[1] - xRange[0]) + xRange[0];
       const y = normY * (yRange[1] - yRange[0]) + yRange[0];
 
-      if (this.state) {
-        this.state.set({ x, y, normX, normY, label });
-      } else {
-        this._tmpState = { x, y, normX, normY, label };
-      }
+      this._startPromiseResolve();
+      // @note - this is a bit dangerous as this can lead to infinite loop if
+      // the
+      this.propagateStateChange({ x, y, normX, normY });
     }
 
     getNormalizedPosition() {
-      const normX = this.state.get('normX');
-      const normY = this.state.get('normY');
-      const label = this.state.get('label');
-      return { normX, normY, label };
+      const { normX, normY } = this.state;
+      return { normX, normY };
     }
   }
 
