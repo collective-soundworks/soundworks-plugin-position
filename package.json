@@ -7,30 +7,30 @@
   ],
   "license": "BSD-3-Clause",
   "scripts": {
-    "clean": "rm -Rf client && rm -Rf server",
-    "toc": "markdown-toc -i README.md",
-    "prepublishOnly": "npm run build",
-    "build": "npm run toc && npm run clean && babel src --out-dir .",
-    "dev": "npm run build && chokidar src/ -c \"babel src --out-dir .\"",
-    "test": "mocha"
+    "lint": "npx eslint src && npx eslint tests",
+    "test": "mocha tests plugin-position.spec.js",
+    "toc": "markdown-toc -i README.md"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    "./client.js": "./src/client/plugin-position.js",
+    "./server.js": "./src/server/plugin-position.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/collective-soundworks/soundworks-plugin-position"
   },
-  "devDependencies": {
-    "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.11.1",
-    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
-    "chokidar": "^3.4.2",
-    "chokidar-cli": "^3.0.0",
-    "markdown-toc": "^1.2.0"
+  "bugs": {
+    "url": "https://github.com/collective-soundworks/soundworks-plugin-position/issues"
   },
-  "dependencies": {
+  "homepage": "https://github.com/collective-soundworks/soundworks-plugin-position#readme",
+  "devDependencies": {
+    "@ircam/eslint-config": "^1.1.0",
     "chai": "^4.3.6",
+    "markdown-toc": "^1.2.0",
     "mocha": "^10.1.0"
   }
 }

@@ -1,4 +1,4 @@
-const pluginFactory = function(Plugin) {
+export default function(Plugin) {
   return class PluginPosition extends Plugin {
     constructor(client, id, options = {}) {
       super(client, id);
@@ -15,7 +15,7 @@ const pluginFactory = function(Plugin) {
         y: null,
         normX: null,
         normY: null,
-      }
+      };
 
       this._startPromiseResolve = null;
       this._startPromiseReject = null;
@@ -74,8 +74,8 @@ const pluginFactory = function(Plugin) {
       const normY = (y - yRange[0]) / (yRange[1] - yRange[0]);
 
       this._startPromiseResolve();
-      // @note - this is a bit dangerous as this can lead to infinite loop if
-      // the `stateManager.onStateChange` method is not written carefully
+      // @note - this is a bit dangerous as this can lead to infinite loop if the
+      // `stateManager.onStateChange` method is not written carefully, see note above
       this.propagateStateChange({ x, y, normX, normY });
     }
 
@@ -90,8 +90,8 @@ const pluginFactory = function(Plugin) {
       const y = normY * (yRange[1] - yRange[0]) + yRange[0];
 
       this._startPromiseResolve();
-      // @note - this is a bit dangerous as this can lead to infinite loop if
-      // the
+      // @note - this is a bit dangerous as this can lead to infinite loop if the
+      // `stateManager.onStateChange` method is not written carefully, see note above
       this.propagateStateChange({ x, y, normX, normY });
     }
 
@@ -99,8 +99,5 @@ const pluginFactory = function(Plugin) {
       const { normX, normY } = this.state;
       return { normX, normY };
     }
-  }
-
+  };
 }
-
-export default pluginFactory;

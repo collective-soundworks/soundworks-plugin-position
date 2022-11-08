@@ -15,11 +15,11 @@ const schema = {
   // @todo - add a map of <label: position>
 };
 
-export function isString(val) {
+function isString(val) {
   return (typeof val === 'string' || val instanceof String);
 }
 
-const pluginFactory = function(Plugin) {
+export default function(Plugin) {
   return class PluginPosition extends Plugin {
     constructor(server, id, options) {
       super(server, id);
@@ -56,7 +56,5 @@ const pluginFactory = function(Plugin) {
 
       this.infos = await this.server.stateManager.create(`sw:plugin:${this.id}`, this.options);
     }
-  }
+  };
 }
-
-export default pluginFactory;
