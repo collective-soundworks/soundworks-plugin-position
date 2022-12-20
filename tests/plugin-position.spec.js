@@ -17,7 +17,7 @@ const config = {
   },
   env: {
     port: 8080,
-    serverIp: '127.0.0.1',
+    serverAddress: '127.0.0.1',
     useHttps: false,
     verbose: false,
   },
@@ -154,7 +154,7 @@ describe('PluginPosition', () => {
       await server.init();
       await server.start();
 
-      const client = new Client({ clientType: 'test', ...config });
+      const client = new Client({ role: 'test', ...config });
       client.pluginManager.register('position', clientPluginPosition);
       // the plugin wont resolve start() until setPosition is called
       client.pluginManager.onStateChange((plugins) => {
@@ -193,7 +193,7 @@ describe('PluginPosition', () => {
       await server.init();
       await server.start();
 
-      const client = new Client({ clientType: 'test', ...config });
+      const client = new Client({ role: 'test', ...config });
       client.pluginManager.register('position', clientPluginPosition);
       // the plugin wont resolve start() until setPosition is called
       client.pluginManager.onStateChange((plugins) => {
@@ -226,7 +226,7 @@ describe('PluginPosition', () => {
       await server.init();
       await server.start();
 
-      const client = new Client({ clientType: 'test', ...config });
+      const client = new Client({ role: 'test', ...config });
       client.pluginManager.register('position', clientPluginPosition, {
         randomize: true,
       });
