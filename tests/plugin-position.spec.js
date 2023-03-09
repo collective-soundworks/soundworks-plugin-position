@@ -8,7 +8,7 @@ import clientPluginPosition from '../src/client/plugin-position.js';
 
 const config = {
   app: {
-    name: 'test-plugin-sync',
+    name: 'test-plugin-position',
     clients: {
       test: {
         target: 'node',

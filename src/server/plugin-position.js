@@ -1,3 +1,5 @@
+import { isString } from '@ircam/sc-utils';
+
 const schema = {
   xRange: {
     type: 'any',
@@ -12,12 +14,7 @@ const schema = {
     nullable: true,
     default: null,
   },
-  // @todo - add a map of <label: position>
 };
-
-function isString(val) {
-  return (typeof val === 'string' || val instanceof String);
-}
 
 export default function(Plugin) {
   return class PluginPosition extends Plugin {

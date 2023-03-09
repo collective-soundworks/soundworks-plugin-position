@@ -29,8 +29,12 @@
   "homepage": "https://github.com/collective-soundworks/soundworks-plugin-position#readme",
   "devDependencies": {
     "@ircam/eslint-config": "^1.1.0",
+    "@soundworks/core": "^4.0.0-alpha.4",
     "chai": "^4.3.6",
     "markdown-toc": "^1.2.0",
     "mocha": "^10.1.0"
+  },
+  "dependencies": {
+    "@ircam/sc-utils": "^1.0.1"
   }
 }
