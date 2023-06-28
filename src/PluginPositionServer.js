@@ -17,7 +17,7 @@ const schema = {
 };
 
 export default function(Plugin) {
-  return class PluginPosition extends Plugin {
+  class PluginPositionServer extends Plugin {
     constructor(server, id, options) {
       super(server, id);
 
@@ -54,4 +54,6 @@ export default function(Plugin) {
       this.infos = await this.server.stateManager.create(`sw:plugin:${this.id}`, this.options);
     }
   };
+
+  return PluginPositionServer;
 }

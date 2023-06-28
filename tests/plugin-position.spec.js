@@ -3,8 +3,8 @@ import { assert } from 'chai';
 import { Server } from '@soundworks/core/server.js';
 import { Client } from '@soundworks/core/client.js';
 
-import serverPluginPosition from '../src/server/plugin-position.js';
-import clientPluginPosition from '../src/client/plugin-position.js';
+import serverPluginPosition from '../src/PluginPositionServer.js';
+import clientPluginPosition from '../src/PluginPositionClient.js';
 
 const config = {
   app: {

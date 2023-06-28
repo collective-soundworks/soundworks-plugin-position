@@ -1,5 +1,6 @@
 export default function(Plugin) {
-  return class PluginPosition extends Plugin {
+
+  class PluginPositionClient extends Plugin {
     constructor(client, id, options = {}) {
       super(client, id);
 
@@ -26,9 +27,9 @@ export default function(Plugin) {
      * If you do not rely on the `@soundworks/helpers` default views, you should
      * track the plugin start process and call one of these methods using
      * `client.stateManager.onStateChange` method. The callback should be written
-     * very carefully to avoid running into infinite loop, first check for inited status,
+     * very carefully to avoid running into infinite loop: first check for inited status,
      * then check for `state.infos`, then call setPosition on if `state.x` && `state.y`
-     * are null
+     * are not null
      *
      * @example
      * client.pluginManager.onStateChange((plugins) => {
@@ -100,4 +101,6 @@ export default function(Plugin) {
       return { normX, normY };
     }
   };
+
+  return PluginPositionClient;
 }

@@ -16,8 +16,11 @@
   },
   "type": "module",
   "exports": {
-    "./client.js": "./src/client/plugin-position.js",
-    "./server.js": "./src/server/plugin-position.js"
+    "./client.js": {
+      "node": "./src/PluginPositionClient.js",
+      "default": "./src/PluginPositionClient.browser.js"
+    },
+    "./server.js": "./src/PluginPositionServer.js"
   },
   "repository": {
     "type": "git",
@@ -35,6 +38,8 @@
     "mocha": "^10.1.0"
   },
   "dependencies": {
-    "@ircam/sc-utils": "^1.0.1"
+    "@ircam/sc-components": "^3.0.0-alpha.3",
+    "@ircam/sc-utils": "^1.0.1",
+    "lit": "^2.7.5"
   }
 }
