@@ -11,15 +11,13 @@ When registered the soundworks launcher will automatically provide an interface 
 <!-- toc -->
 
 - [Installation](#installation)
-- [Example](#example)
 - [Usage](#usage)
-  * [Server installation](#server-installation)
-    + [Registering the plugin](#registering-the-plugin)
-    + [Requiring the plugin](#requiring-the-plugin)
-  * [Client installation](#client-installation)
-    + [Registering the plugin](#registering-the-plugin-1)
-    + [Requiring the plugin](#requiring-the-plugin-1)
-  * [Getting and Setting Position](#getting-and-setting-position)
+  * [Server](#server)
+  * [Client](#client)
+- [API](#api)
+  * [Classes](#classes)
+  * [PluginPositionClient](#pluginpositionclient)
+  * [PluginPositionServer](#pluginpositionserver)
 - [Credits](#credits)
 - [License](#license)
 
