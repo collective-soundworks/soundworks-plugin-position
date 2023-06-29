@@ -17,7 +17,27 @@ const schema = {
 };
 
 export default function(Plugin) {
+  /**
+   * Server-side representation of the soundworks' position plugin.
+   */
   class PluginPositionServer extends Plugin {
+    /**
+     * The constructor should never be called manually. The plugin will be
+     * instantiated by soundworks when registered in the `pluginManager`
+     *
+     * Available options:
+     * - `xRange` {Array} - Range of the area in the x axis.
+     * - `yRange` {Array} - Range of the area in the y axis.
+     * - `backgroundImage` {String} - Path to a background image to be displayed
+     *   by the launcher view.
+     *
+     * @example
+     * server.pluginManager.register('position', positionPlugin, {
+     *   xRange: [0, 2],
+     *   yRange: [-1, 1],
+     *   backgroundImage: 'public/path/to/map.png',
+     * });
+     */
     constructor(server, id, options) {
       super(server, id);
 
@@ -48,6 +68,7 @@ export default function(Plugin) {
       this.server.stateManager.registerSchema(`sw:plugin:${this.id}`, schema);
     }
 
+    /** @private */
     async start() {
       await super.start();
 

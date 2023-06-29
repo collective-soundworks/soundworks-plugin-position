@@ -1,9 +1,24 @@
 export default function(Plugin) {
-
+  /**
+   * Client-side representation of the soundworks' position plugin.
+   */
   class PluginPositionClient extends Plugin {
+    /**
+     * The constructor should never be called manually. The plugin will be
+     * instantiated by soundworks when registered in the `pluginManager`
+     *
+     * Available options:
+     * - `randomize` {Boolean} - Autoamtically give a random position to the client.
+     *   Useful for testing
+     *
+     * @example
+     * client.pluginManager.register('position', positionPlugin, { randomize: true });
+     */
     constructor(client, id, options = {}) {
       super(client, id);
 
+      // @todo - allow to pass a function to create more advanced maps,
+      // e.g.: matrixes, circles, etc.
       const defaults = {
         randomize: false,
       };
@@ -37,14 +52,14 @@ export default function(Plugin) {
      *
      *   if (position.status === 'inited') {
      *     if (position.state && position.state.infos) {
-     *       assert.deepEqual(position.state.infos, options);
-     *
      *       if (position.state.x === null && position.state.y === null) {
      *         position.setNormalizedPosition(0.5, 0.5);
      *       }
      *     }
      *   }
      * });
+     *
+     * @private
      */
     async start() {
       await super.start();
@@ -69,6 +84,12 @@ export default function(Plugin) {
       return startPromise;
     }
 
+    /**
+     * Set the x and y position of the client in the given ranges units.
+     *
+     * By default, this method is automatically called by the soundworks launcher,
+     * you should not have to call it manually in most cases.
+     */
     setPosition(x, y) {
       const { xRange, yRange } = this.state.infos;
       const normX = (x - xRange[0]) / (xRange[1] - xRange[0]);
@@ -80,11 +101,22 @@ export default function(Plugin) {
       this.propagateStateChange({ x, y, normX, normY });
     }
 
+    /**
+     * Retrieve the given position in the given ranges units.
+     *
+     * @return {Object} - x / y position of the client.
+     */
     getPosition() {
       const { x, y } = this.state;
       return { x, y };
     }
 
+    /**
+     * Set the x and y position of the client in normalized units.
+     *
+     * By default, this method is automatically called by the soundworks launcher,
+     * you should not have to call it manually in most cases.
+     */
     setNormalizedPosition(normX, normY) {
       const { xRange, yRange } = this.state.infos;
       const x = normX * (xRange[1] - xRange[0]) + xRange[0];
@@ -96,6 +128,11 @@ export default function(Plugin) {
       this.propagateStateChange({ x, y, normX, normY });
     }
 
+    /**
+     * Retrieve the given position in normalized units.
+     *
+     * @return {Object} - normalized x / y position of the client.
+     */
     getNormalizedPosition() {
       const { normX, normY } = this.state;
       return { normX, normY };

@@ -1,6 +1,10 @@
-# `@soundworks/plugin-position`
+# soundworks | plugin position
 
-> [`soundworks`](https://github.com/collective-soundworks/soundworks) plugin for locating people in an area. In the soundworks-template default views, the plugin is associated to an initialization screen where people are asked to give their position on a map.
+[![npm version](https://badge.fury.io/js/@soundworks%2Fplugin-position.svg)](https://badge.fury.io/js/@soundworks%2Fplugin-position)
+
+[`soundworks`](https://soundworks.dev) plugin for locating people in an area. 
+
+When registered the soundworks launcher will automatically provide an interface so that people can give give their approximate position on a map or area.
 
 ## Table of Contents
 
@@ -27,108 +31,153 @@
 npm install @soundworks/plugin-position --save
 ```
 
-## Example
-
-A working example can be found in the [https://github.com/collective-soundworks/soundworks-examples](https://github.com/collective-soundworks/soundworks-examples) repository.
-
 ## Usage
 
-### Server installation
-
-#### Registering the plugin
+### Server
 
 ```js
 // index.js
-import { Server } from '@soundworks/core/server';
-import pluginPositionFactory from '@soundworks/plugin-position/server';
+import { Server } from '@soundworks/core/server.js';
+import pluginPosition from '@soundworks/plugin-position/server.js';
 
 const server = new Server();
-server.pluginManager.register('position', pluginPositionFactory, {
+server.pluginManager.register('position', pluginPosition, {
   // these values define the coordinates system of the area, they have
   // no special meaning and could be in any unit you find useful for
   // your application, defaults to [0, 1]
   xRange: [0, 2],
   yRange: [-1, 1],
-  // @unstable - define a background image that will be used by
-  // the default view of the plugin.
-  backgroundImage: 'public/path/to/bg-image.png'
+  // define a background image that will be displayed by the launcher view
+  backgroundImage: 'public/path/to/map.png'
 }, []);
+
+await server.start();
 ```
 
-#### Requiring the plugin
-
-```js
-// MyExperience.js
-import { AbstractExperience } from '@soundworks/core/server';
-
-class MyExperience extends AbstractExperience {
-  constructor(server, clientType) {
-    super(server, clientType);
-    // require plugin in the experience
-    this.position = this.require('position');
-  }
-}
-```
-
-### Client installation
-
-#### Registering the plugin
+### Client
 
 ```js
 // index.js
-import { Client } from '@soundworks/core/client';
-import pluginPositionFactory from '@soundworks/plugin-position/client';
+import { Client } from '@soundworks/core/client.js';
+import pluginPosition from '@soundworks/plugin-position/client.js';
 
 const client = new Client();
-client.pluginManager.register('position', pluginPositionFactory, {}, []);
+client.pluginManager.register('position', pluginPosition, {}, []);
+
+await client.start();
+
+const position = await client.pluginManager.get('position');
+const clientPosition = position.getPosition();
 ```
 
-#### Requiring the plugin
+## API
 
+<!-- api -->
+
+### Classes
+
+<dl>
+<dt><a href="#PluginPositionClient">PluginPositionClient</a></dt>
+<dd><p>Client-side representation of the soundworks&#39; position plugin.</p>
+</dd>
+<dt><a href="#PluginPositionServer">PluginPositionServer</a></dt>
+<dd><p>Server-side representation of the soundworks&#39; position plugin.</p>
+</dd>
+</dl>
+
+<a name="PluginPositionClient"></a>
+
+### PluginPositionClient
+Client-side representation of the soundworks' position plugin.
+
+**Kind**: global class  
+
+* [PluginPositionClient](#PluginPositionClient)
+    * [new PluginPositionClient()](#new_PluginPositionClient_new)
+    * [.setPosition()](#PluginPositionClient+setPosition)
+    * [.getPosition()](#PluginPositionClient+getPosition) ⇒ <code>Object</code>
+    * [.setNormalizedPosition()](#PluginPositionClient+setNormalizedPosition)
+    * [.getNormalizedPosition()](#PluginPositionClient+getNormalizedPosition) ⇒ <code>Object</code>
+
+<a name="new_PluginPositionClient_new"></a>
+
+#### new PluginPositionClient()
+The constructor should never be called manually. The plugin will be
+instantiated by soundworks when registered in the `pluginManager`
+
+Available options:
+- `randomize` {Boolean} - Autoamtically give a random position to the client.
+  Useful for testing
+
+**Example**  
 ```js
-// MyExperience.js
-import { Experience } from '@soundworks/core/client';
-
-class MyExperience extends Experience {
-  constructor(client) {
-    super(client);
-    // require plugin in the experience
-    this.position = this.require('position');
-  }
-}
+client.pluginManager.register('position', positionPlugin, { randomize: true });
 ```
+<a name="PluginPositionClient+setPosition"></a>
 
-### Getting and Setting Position
+#### pluginPositionClient.setPosition()
+Set the x and y position of the client in the given ranges units.
 
-The following API is available client-side only.
+By default, this method is automatically called by the soundworks launcher,
+you should not have to call it manually in most cases.
 
+**Kind**: instance method of [<code>PluginPositionClient</code>](#PluginPositionClient)  
+<a name="PluginPositionClient+getPosition"></a>
+
+#### pluginPositionClient.getPosition() ⇒ <code>Object</code>
+Retrieve the given position in the given ranges units.
+
+**Kind**: instance method of [<code>PluginPositionClient</code>](#PluginPositionClient)  
+**Returns**: <code>Object</code> - - x / y position of the client.  
+<a name="PluginPositionClient+setNormalizedPosition"></a>
+
+#### pluginPositionClient.setNormalizedPosition()
+Set the x and y position of the client in normalized units.
+
+By default, this method is automatically called by the soundworks launcher,
+you should not have to call it manually in most cases.
+
+**Kind**: instance method of [<code>PluginPositionClient</code>](#PluginPositionClient)  
+<a name="PluginPositionClient+getNormalizedPosition"></a>
+
+#### pluginPositionClient.getNormalizedPosition() ⇒ <code>Object</code>
+Retrieve the given position in normalized units.
+
+**Kind**: instance method of [<code>PluginPositionClient</code>](#PluginPositionClient)  
+**Returns**: <code>Object</code> - - normalized x / y position of the client.  
+<a name="PluginPositionServer"></a>
+
+### PluginPositionServer
+Server-side representation of the soundworks' position plugin.
+
+**Kind**: global class  
+<a name="new_PluginPositionServer_new"></a>
+
+#### new PluginPositionServer()
+The constructor should never be called manually. The plugin will be
+instantiated by soundworks when registered in the `pluginManager`
+
+Available options:
+- `xRange` {Array} - Range of the area in the x axis.
+- `yRange` {Array} - Range of the area in the y axis.
+- `backgroundImage` {String} - Path to a background image to be displayed
+  by the launcher view.
+
+**Example**  
 ```js
-const { x, y } = this.position.getPosition();
+server.pluginManager.register('position', positionPlugin, {
+  xRange: [0, 2],
+  yRange: [-1, 1],
+  backgroundImage: 'public/path/to/map.png',
+});
 ```
 
-In some situation, you might want to set the position programmatically, for example to assign a position to people and asking them to go to the given place. Using this possibility as shown below will therefore bypass the default screen, the visual feedback (or any other informative process) will therefore be the responsibility of the developer / designer / artist (note that similar result may be achieved using [`@soundworks/plugin-checkin`](https://github.com/collective-soundworks/soundworks-plugin-checkin))
-
-```js
-class MyExperience extends Experience {
-  constructor(client) {
-    super(client);
-    // require plugin in the experience
-    this.position = this.require('position');
-    this.position.setPosition(x, y[, label]);
-  }
-}
-```
-
-For testing purpose (mainly), the position can also be given as a normalized value without having to take into account the `xRange` and `yRange` values.
-
-```js
-this.position.setNormalizedPosition(Math.random(), Math.random());
-```
+<!-- apistop -->
 
 ## Credits
 
-The code has been initiated in the framework of the WAVE and CoSiMa research projects, funded by the French National Research Agency (ANR).
+[https://soundworks.dev/credits.html](https://soundworks.dev/credits.html)
 
 ## License
 
-BSD-3-Clause
+[BSD-3-Clause](./LICENSE)
