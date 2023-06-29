@@ -94,9 +94,9 @@ Client-side representation of the soundworks' position plugin.
 
 * [PluginPositionClient](#PluginPositionClient)
     * [new PluginPositionClient()](#new_PluginPositionClient_new)
-    * [.setPosition()](#PluginPositionClient+setPosition)
+    * [.setPosition(x, y)](#PluginPositionClient+setPosition)
     * [.getPosition()](#PluginPositionClient+getPosition) ⇒ <code>Object</code>
-    * [.setNormalizedPosition()](#PluginPositionClient+setNormalizedPosition)
+    * [.setNormalizedPosition(x, y)](#PluginPositionClient+setNormalizedPosition)
     * [.getNormalizedPosition()](#PluginPositionClient+getNormalizedPosition) ⇒ <code>Object</code>
 
 <a name="new_PluginPositionClient_new"></a>
@@ -115,13 +115,19 @@ client.pluginManager.register('position', positionPlugin, { randomize: true });
 ```
 <a name="PluginPositionClient+setPosition"></a>
 
-#### pluginPositionClient.setPosition()
+#### pluginPositionClient.setPosition(x, y)
 Set the x and y position of the client in the given ranges units.
 
 By default, this method is automatically called by the soundworks launcher,
 you should not have to call it manually in most cases.
 
 **Kind**: instance method of [<code>PluginPositionClient</code>](#PluginPositionClient)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| x | <code>Number</code> | x position in the given ranges units. |
+| y | <code>Number</code> | y position in the given ranges units. |
+
 <a name="PluginPositionClient+getPosition"></a>
 
 #### pluginPositionClient.getPosition() ⇒ <code>Object</code>
@@ -131,13 +137,19 @@ Retrieve the given position in the given ranges units.
 **Returns**: <code>Object</code> - - x / y position of the client.  
 <a name="PluginPositionClient+setNormalizedPosition"></a>
 
-#### pluginPositionClient.setNormalizedPosition()
+#### pluginPositionClient.setNormalizedPosition(x, y)
 Set the x and y position of the client in normalized units.
 
 By default, this method is automatically called by the soundworks launcher,
 you should not have to call it manually in most cases.
 
 **Kind**: instance method of [<code>PluginPositionClient</code>](#PluginPositionClient)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| x | <code>Number</code> | x position in normalized units. |
+| y | <code>Number</code> | y position in normalized units. |
+
 <a name="PluginPositionClient+getNormalizedPosition"></a>
 
 #### pluginPositionClient.getNormalizedPosition() ⇒ <code>Object</code>

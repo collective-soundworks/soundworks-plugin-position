@@ -89,6 +89,9 @@ export default function(Plugin) {
      *
      * By default, this method is automatically called by the soundworks launcher,
      * you should not have to call it manually in most cases.
+     *
+     * @param {Number} x - x position in the given ranges units.
+     * @param {Number} y - y position in the given ranges units.
      */
     setPosition(x, y) {
       const { xRange, yRange } = this.state.infos;
@@ -116,6 +119,9 @@ export default function(Plugin) {
      *
      * By default, this method is automatically called by the soundworks launcher,
      * you should not have to call it manually in most cases.
+     *
+     * @param {Number} x - x position in normalized units.
+     * @param {Number} y - y position in normalized units.
      */
     setNormalizedPosition(normX, normY) {
       const { xRange, yRange } = this.state.infos;
