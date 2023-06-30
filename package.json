@@ -6,6 +6,14 @@
     "Benjamin Matuszewski"
   ],
   "license": "BSD-3-Clause",
+  "type": "module",
+  "exports": {
+    "./client.js": {
+      "node": "./src/PluginPositionClient.js",
+      "default": "./src/PluginPositionClient.browser.js"
+    },
+    "./server.js": "./src/PluginPositionServer.js"
+  },
   "scripts": {
     "api": "jsdoc-to-readme --src src/*.js",
     "lint": "npx eslint src && npx eslint tests",
@@ -16,14 +24,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "type": "module",
-  "exports": {
-    "./client.js": {
-      "node": "./src/PluginPositionClient.js",
-      "default": "./src/PluginPositionClient.browser.js"
-    },
-    "./server.js": "./src/PluginPositionServer.js"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/collective-soundworks/soundworks-plugin-position"
@@ -31,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/collective-soundworks/soundworks-plugin-position/issues"
   },
-  "homepage": "https://github.com/collective-soundworks/soundworks-plugin-position#readme",
+  "homepage": "https://soundworks.dev",
   "devDependencies": {
     "@ircam/eslint-config": "^1.1.0",
     "@soundworks/core": "^4.0.0-alpha.4",
