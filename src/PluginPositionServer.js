@@ -26,9 +26,9 @@ export default function(Plugin) {
      * instantiated by soundworks when registered in the `pluginManager`
      *
      * Available options:
-     * - `xRange` {Array} - Range of the area in the x axis.
-     * - `yRange` {Array} - Range of the area in the y axis.
-     * - `backgroundImage` {String} - Path to a background image to be displayed
+     * - `[xRange=[0, 1]]` {Array} - Range of the area in the x axis.
+     * - `[yRange=[0, 1]]` {Array} - Range of the area in the y axis.
+     * - `[backgroundImage=null]` {String} - Path to a background image to be displayed
      *   by the launcher view.
      *
      * @example
