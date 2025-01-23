@@ -35,11 +35,12 @@ describe('PluginPosition', () => {
         });
 
         await server.init();
-      } catch(err) {
+      } catch (err) {
         console.log(err.message);
         errored = true;
       }
-      if (!errored) { assert.fail('should have thrown'); }
+
+      assert.isTrue(errored);
     });
 
     it('should throw if options.xRange.length is not 2', async () => {
@@ -52,11 +53,12 @@ describe('PluginPosition', () => {
         });
 
         await server.init();
-      } catch(err) {
+      } catch (err) {
         console.log(err.message);
         errored = true;
       }
-      if (!errored) { assert.fail('should have thrown'); }
+
+      assert.isTrue(errored);
     });
 
     it('should throw if options.yRange is not an array', async () => {
@@ -69,11 +71,12 @@ describe('PluginPosition', () => {
         });
 
         await server.init();
-      } catch(err) {
+      } catch (err) {
         console.log(err.message);
         errored = true;
       }
-      if (!errored) { assert.fail('should have thrown'); }
+
+      assert.isTrue(errored);
     });
 
     it('should throw if options.yRange.length is not 2', async () => {
@@ -86,11 +89,12 @@ describe('PluginPosition', () => {
         });
 
         await server.init();
-      } catch(err) {
+      } catch (err) {
         console.log(err.message);
         errored = true;
       }
-      if (!errored) { assert.fail('should have thrown'); }
+
+      assert.isTrue(errored);
     });
 
     it('should throw if options.backgroundImage is not null or not string', async () => {
@@ -103,11 +107,12 @@ describe('PluginPosition', () => {
         });
 
         await server.init();
-      } catch(err) {
+      } catch (err) {
         console.log(err.message);
         errored = true;
       }
-      if (!errored) { assert.fail('should have thrown'); }
+
+      assert.isTrue(errored);
     });
 
     it('should properly register its schema', async () => {
@@ -117,11 +122,12 @@ describe('PluginPosition', () => {
       try {
         server.pluginManager.register('position', serverPluginPosition, {});
         await server.init();
-      } catch(err) {
+      } catch (err) {
         console.log(err.message);
         errored = true;
       }
-      if (errored) { assert.fail('should not have thrown'); }
+
+      assert.isFalse(errored);
     });
 
     it('infos state should represent given options', async () => {

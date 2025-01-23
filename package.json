@@ -33,16 +33,16 @@
   },
   "homepage": "https://soundworks.dev",
   "devDependencies": {
-    "@ircam/eslint-config": "^1.1.0",
-    "@soundworks/core": "^4.0.0-alpha.4",
-    "chai": "^4.3.6",
-    "jsdoc-to-readme": "^1.1.0",
+    "@ircam/eslint-config": "^2.0.1",
+    "chai": "^5.1.2",
+    "jsdoc-to-readme": "^2.0.2",
     "markdown-toc": "^1.2.0",
-    "mocha": "^10.1.0"
+    "mocha": "^11.1.0"
   },
   "dependencies": {
-    "@ircam/sc-components": "^3.0.0-alpha.3",
-    "@ircam/sc-utils": "^1.0.1",
-    "lit": "^2.7.5"
+    "@ircam/sc-utils": "^1.0.1"
+  },
+  "peerDependencies": {
+    "@soundworks/core": "^4.0.0-alpha.5"
   }
 }
