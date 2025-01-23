@@ -3,15 +3,15 @@ import { assert } from 'chai';
 import { Server } from '@soundworks/core/server.js';
 import { Client } from '@soundworks/core/client.js';
 
-import serverPluginPosition from '../src/PluginPositionServer.js';
-import clientPluginPosition from '../src/PluginPositionClient.js';
+import ServerPluginPosition from '../src/ServerPluginPosition.js';
+import ClientPluginPosition from '../src/ClientPluginPosition.js';
 
 const config = {
   app: {
     name: 'test-plugin-position',
     clients: {
       test: {
-        target: 'node',
+        runtime: 'node',
       },
     },
   },
@@ -30,7 +30,7 @@ describe('PluginPosition', () => {
 
       let errored = false;
       try {
-        server.pluginManager.register('position', serverPluginPosition, {
+        server.pluginManager.register('position', ServerPluginPosition, {
           xRange: null,
         });
 
@@ -48,7 +48,7 @@ describe('PluginPosition', () => {
 
       let errored = false;
       try {
-        server.pluginManager.register('position', serverPluginPosition, {
+        server.pluginManager.register('position', ServerPluginPosition, {
           xRange: [0, 1, 2],
         });
 
@@ -66,7 +66,7 @@ describe('PluginPosition', () => {
 
       let errored = false;
       try {
-        server.pluginManager.register('position', serverPluginPosition, {
+        server.pluginManager.register('position', ServerPluginPosition, {
           yRange: null,
         });
 
@@ -84,7 +84,7 @@ describe('PluginPosition', () => {
 
       let errored = false;
       try {
-        server.pluginManager.register('position', serverPluginPosition, {
+        server.pluginManager.register('position', ServerPluginPosition, {
           yRange: [0, 1, 2],
         });
 
@@ -102,7 +102,7 @@ describe('PluginPosition', () => {
 
       let errored = false;
       try {
-        server.pluginManager.register('position', serverPluginPosition, {
+        server.pluginManager.register('position', ServerPluginPosition, {
           backgroundImage: true,
         });
 
@@ -120,7 +120,7 @@ describe('PluginPosition', () => {
 
       let errored = false;
       try {
-        server.pluginManager.register('position', serverPluginPosition, {});
+        server.pluginManager.register('position', ServerPluginPosition, {});
         await server.init();
       } catch (err) {
         console.log(err.message);
@@ -138,7 +138,7 @@ describe('PluginPosition', () => {
       };
 
       const server = new Server(config);
-      server.pluginManager.register('position', serverPluginPosition, options);
+      server.pluginManager.register('position', ServerPluginPosition, options);
       await server.init();
 
       const plugin = await server.pluginManager.get('position');
@@ -156,12 +156,12 @@ describe('PluginPosition', () => {
       };
 
       const server = new Server(config);
-      server.pluginManager.register('position', serverPluginPosition, options);
+      server.pluginManager.register('position', ServerPluginPosition, options);
       await server.init();
       await server.start();
 
       const client = new Client({ role: 'test', ...config });
-      client.pluginManager.register('position', clientPluginPosition);
+      client.pluginManager.register('position', ClientPluginPosition);
       // the plugin wont resolve start() until setPosition is called
       client.pluginManager.onStateChange((plugins) => {
         const position = plugins['position'];
@@ -195,12 +195,12 @@ describe('PluginPosition', () => {
       };
 
       const server = new Server(config);
-      server.pluginManager.register('position', serverPluginPosition, options);
+      server.pluginManager.register('position', ServerPluginPosition, options);
       await server.init();
       await server.start();
 
       const client = new Client({ role: 'test', ...config });
-      client.pluginManager.register('position', clientPluginPosition);
+      client.pluginManager.register('position', ClientPluginPosition);
       // the plugin wont resolve start() until setPosition is called
       client.pluginManager.onStateChange((plugins) => {
         const position = plugins['position'];
@@ -228,12 +228,12 @@ describe('PluginPosition', () => {
 
     it('option.randomize should assign random position to client', async () => {
       const server = new Server(config);
-      server.pluginManager.register('position', serverPluginPosition);
+      server.pluginManager.register('position', ServerPluginPosition);
       await server.init();
       await server.start();
 
       const client = new Client({ role: 'test', ...config });
-      client.pluginManager.register('position', clientPluginPosition, {
+      client.pluginManager.register('position', ClientPluginPosition, {
         randomize: true,
       });
       await client.init();
