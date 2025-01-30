@@ -50,6 +50,6 @@
     "@ircam/sc-utils": "^1.0.1"
   },
   "peerDependencies": {
-    "@soundworks/core": "^4.0.0-alpha.5"
+    "@soundworks/core": "^5.0.0"
   }
 }
