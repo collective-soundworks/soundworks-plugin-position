@@ -1,4 +1,4 @@
-import { ClientPlugin } from '@soundworks/core/client.js'
+import { ClientPlugin } from '@soundworks/core/client.js';
 
 /**
  * Client-side representation of the position plugin.
