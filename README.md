@@ -12,12 +12,9 @@ When registered the soundworks launcher will automatically provide an interface 
 
 - [Installation](#installation)
 - [Usage](#usage)
-  * [Server](#server)
-  * [Client](#client)
 - [API](#api)
-  * [Classes](#classes)
-  * [PluginPositionClient](#pluginpositionclient)
-  * [PluginPositionServer](#pluginpositionserver)
+- [ClientPluginPosition](#clientpluginposition)
+- [ServerPluginPosition](#serverpluginposition)
 - [Credits](#credits)
 - [License](#license)
 
