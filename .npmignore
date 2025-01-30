@@ -1,6 +1,6 @@
 .editorconfig
-.eslintrc
-
+eslint.config.js
+tsconfig.json
 tests
 
 # junk files
