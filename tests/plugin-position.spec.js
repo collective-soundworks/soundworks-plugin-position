@@ -134,7 +134,7 @@ describe('PluginPosition', () => {
       const options = {
         xRange: [-1, 2],
         yRange: [-3, 0.5],
-        backgroundImage: 'test.png',
+        backgroundImage: null,
       };
 
       const server = new Server(config);
@@ -152,7 +152,7 @@ describe('PluginPosition', () => {
       const options = {
         xRange: [-1, 1],
         yRange: [-1, 1],
-        backgroundImage: 'test.png',
+        backgroundImage: null,
       };
 
       const server = new Server(config);
@@ -191,7 +191,7 @@ describe('PluginPosition', () => {
       const options = {
         xRange: [-1, 1],
         yRange: [-1, 1],
-        backgroundImage: 'test.png',
+        backgroundImage: null,
       };
 
       const server = new Server(config);
