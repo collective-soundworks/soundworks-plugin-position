@@ -1,6 +1,6 @@
 {
   "name": "@soundworks/plugin-position",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "soundworks plugin for locating people in an area",
   "authors": [
     "Benjamin Matuszewski"
