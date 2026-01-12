@@ -1,4 +1,3 @@
-import path from 'node:path';
 import fs from 'node:fs';
 
 
@@ -70,17 +69,17 @@ export default class ServerPluginPosition extends ServerPlugin {
       throw new TypeError(`Cannot construct 'ServerPluginPosition': Invalid option "backgroundImage", "backgroundImage" should "null" or "string"`);
     }
 
-    if (isString(this.options.backgroundImage)) {
-        if (!fs.existsSync(this.options.backgroundImage) || !fs.statSync(this.options.backgroundImage).isFile()) {
-          throw new TypeError(`Cannot construct 'ServerPluginPosition': Given "backgroundImage" options is not a file`);
-        }
-
-        const mimeType = mime.lookup(this.options.backgroundImage);
-
-        if (mimeType.split('/')[0] !== 'image') {
-          throw new TypeError(`Cannot construct 'ServerPluginPosition': Given "backgroundImage" options is not an image`);
-        }
+    if (isString(this.options.backgroundImage) && this.options.backgroundImage !== '') {
+      if (!fs.existsSync(this.options.backgroundImage) || !fs.statSync(this.options.backgroundImage).isFile()) {
+        throw new TypeError(`Cannot construct 'ServerPluginPosition': Given "backgroundImage" options is not a file`);
       }
+
+      const mimeType = mime.lookup(this.options.backgroundImage);
+
+      if (mimeType.split('/')[0] !== 'image') {
+        throw new TypeError(`Cannot construct 'ServerPluginPosition': Given "backgroundImage" options is not an image`);
+      }
+    }
 
     this.server.stateManager.defineClass(`sw:plugin:${this.id}`, schema);
   }
