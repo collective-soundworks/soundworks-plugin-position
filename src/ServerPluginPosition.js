@@ -1,5 +1,10 @@
+import path from 'node:path';
+import fs from 'node:fs';
+
+
 import { ServerPlugin } from '@soundworks/core/server.js';
 import { isString } from '@ircam/sc-utils';
+import mime from 'mime-types';
 
 const schema = {
   xRange: {
@@ -65,6 +70,18 @@ export default class ServerPluginPosition extends ServerPlugin {
       throw new TypeError(`Cannot construct 'ServerPluginPosition': Invalid option "backgroundImage", "backgroundImage" should "null" or "string"`);
     }
 
+    if (isString(this.options.backgroundImage)) {
+        if (!fs.existsSync(this.options.backgroundImage) || !fs.statSync(this.options.backgroundImage).isFile()) {
+          throw new TypeError(`Cannot construct 'ServerPluginPosition': Given "backgroundImage" options is not a file`);
+        }
+
+        const mimeType = mime.lookup(this.options.backgroundImage);
+
+        if (mimeType.split('/')[0] !== 'image') {
+          throw new TypeError(`Cannot construct 'ServerPluginPosition': Given "backgroundImage" options is not an image`);
+        }
+      }
+
     this.server.stateManager.defineClass(`sw:plugin:${this.id}`, schema);
   }
 
@@ -72,6 +89,20 @@ export default class ServerPluginPosition extends ServerPlugin {
   async start() {
     await super.start();
 
-    this.infos = await this.server.stateManager.create(`sw:plugin:${this.id}`, this.options);
+    const { xRange, yRange } = this.options;
+
+    let backgroundImage = null;
+    // encode image as base64, so that we don't need to expose it through HTTP
+    if (isString(this.options.backgroundImage)) {
+      const mimeType = mime.lookup(this.options.backgroundImage);
+      const base64 = fs.readFileSync(this.options.backgroundImage).toString('base64');
+      backgroundImage = `data:${mimeType};base64,${base64}`;
+    }
+
+    this.infos = await this.server.stateManager.create(`sw:plugin:${this.id}`, {
+      xRange,
+      yRange,
+      backgroundImage,
+    });
   }
 }
